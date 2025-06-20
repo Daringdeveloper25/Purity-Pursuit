@@ -8,12 +8,25 @@ const timeDisplay = document.getElementById("time");
 // Title screen elements
 const titleScreen = document.getElementById("title-screen");
 const startBtn = document.getElementById("start-btn");
+const resetBtn = document.getElementById("reset-btn");
+
+const successScreen = document.getElementById("success-screen");
+const failScreen = document.getElementById("fail-screen");
+const successResetBtn = document.getElementById("success-reset-btn");
+const failResetBtn = document.getElementById("fail-reset-btn");
+const goalPointsDisplay = document.getElementById("goal-points");
+
+const quitBtn = document.getElementById("quit-btn");
+const successQuitBtn = document.getElementById("success-quit-btn");
+const failQuitBtn = document.getElementById("fail-quit-btn");
+const titleQuitBtn = document.getElementById("title-quit-btn");
 
 let score = 0;
 let level = 1;
-let time = 60;
+let time = 30;
 let gameInterval;
 let dropletInterval;
+let goalPoints = 50;
 
 function moveBucket(e) {
   const areaWidth = gameArea.clientWidth;
@@ -60,6 +73,7 @@ function spawnDroplet() {
         score -= 5;
       }
       scoreDisplay.textContent = score;
+      checkGoal();
       droplet.remove();
       clearInterval(fall);
     } else if (y > gameArea.clientHeight) {
@@ -69,53 +83,118 @@ function spawnDroplet() {
   }, 30);
 }
 
+function checkGoal() {
+  // No longer ends the game immediately when reaching the goal
+}
+
 function updateTime() {
   time--;
   timeDisplay.textContent = time;
   if (time <= 0) {
     clearInterval(gameInterval);
     clearInterval(dropletInterval);
-    alert("Time's up! Final Score: " + score);
-  } else if (score >= 100 * level && level < 3) {
-    level++;
-    levelDisplay.textContent = level;
+    if (score >= goalPoints) {
+      if (successScreen) successScreen.style.display = "flex";
+    } else {
+      if (failScreen) failScreen.style.display = "flex";
+    }
   }
 }
 
 function startGame() {
-  // Hide title screen if present
+  // Hide overlays
   if (titleScreen) titleScreen.style.display = "none";
+  if (successScreen) successScreen.style.display = "none";
+  if (failScreen) failScreen.style.display = "none";
   // Reset game state
   score = 0;
   level = 1;
-  time = 60;
+  time = 30;
   scoreDisplay.textContent = score;
   levelDisplay.textContent = level;
   timeDisplay.textContent = time;
+  goalPointsDisplay.textContent = `Goal: ${goalPoints}`;
+  // Remove all droplets
+  const droplets = document.querySelectorAll('.droplet');
+  droplets.forEach(droplet => droplet.remove());
   // Start game loops
   gameInterval = setInterval(updateTime, 1000);
   dropletInterval = setInterval(spawnDroplet, 800);
 }
 
-// Only start game on button click, not on window load
+function resetGame() {
+  // Hide overlays
+  if (titleScreen) titleScreen.style.display = "none";
+  if (successScreen) successScreen.style.display = "none";
+  if (failScreen) failScreen.style.display = "none";
+  // Reset game state
+  score = 0;
+  level = 1;
+  time = 30;
+  scoreDisplay.textContent = score;
+  levelDisplay.textContent = level;
+  timeDisplay.textContent = time;
+  goalPointsDisplay.textContent = `Goal: ${goalPoints}`;
+  // Remove all droplets
+  const droplets = document.querySelectorAll('.droplet');
+  droplets.forEach(droplet => droplet.remove());
+  // Restart game loops
+  clearInterval(gameInterval);
+  clearInterval(dropletInterval);
+  gameInterval = setInterval(updateTime, 1000);
+  dropletInterval = setInterval(spawnDroplet, 800);
+}
+
+function quitToTitle() {
+  // Hide overlays and game area, show title screen
+  if (titleScreen) titleScreen.style.display = "flex";
+  if (successScreen) successScreen.style.display = "none";
+  if (failScreen) failScreen.style.display = "none";
+  // Reset game state
+  score = 0;
+  level = 1;
+  time = 30;
+  scoreDisplay.textContent = score;
+  levelDisplay.textContent = level;
+  timeDisplay.textContent = time;
+  goalPointsDisplay.textContent = `Goal: ${goalPoints}`;
+  // Remove all droplets
+  const droplets = document.querySelectorAll('.droplet');
+  droplets.forEach(droplet => droplet.remove());
+  // Stop intervals
+  clearInterval(gameInterval);
+  clearInterval(dropletInterval);
+}
+
+window.addEventListener("mousemove", moveBucket);
+window.addEventListener("touchmove", moveBucket);
+
 if (startBtn) {
   startBtn.addEventListener("click", startGame);
+  startBtn.addEventListener("click", () => {
+    window.addEventListener("mousemove", moveBucket);
+    window.addEventListener("touchmove", moveBucket);
+  });
 }
 
-// Enable bucket movement only after game starts
-function enableBucketMovement() {
-  window.addEventListener("mousemove", moveBucket);
-  window.addEventListener("touchmove", moveBucket);
+if (resetBtn) {
+  resetBtn.addEventListener("click", resetGame);
 }
-function disableBucketMovement() {
-  window.removeEventListener("mousemove", moveBucket);
-  window.removeEventListener("touchmove", moveBucket);
+if (successResetBtn) {
+  successResetBtn.addEventListener("click", resetGame);
 }
-
-// Enable movement when game starts
-if (startBtn) {
-  startBtn.addEventListener("click", enableBucketMovement);
+if (failResetBtn) {
+  failResetBtn.addEventListener("click", resetGame);
 }
-
-// Prevent game from auto-starting
-// window.onload = startGame;
+if (quitBtn) {
+  quitBtn.addEventListener("click", quitToTitle);
+}
+if (successQuitBtn) {
+  successQuitBtn.addEventListener("click", quitToTitle);
+}
+if (failQuitBtn) {
+  failQuitBtn.addEventListener("click", quitToTitle);
+}
+if (titleQuitBtn) {
+  titleQuitBtn.addEventListener("click", quitToTitle);
+}

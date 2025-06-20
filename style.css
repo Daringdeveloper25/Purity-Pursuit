@@ -69,7 +69,7 @@ header {
   background: url('images/dirty\ raindrop.png') no-repeat center / contain;
 }
 
-#title-screen {
+#title-screen, #success-screen, #fail-screen {
   position: fixed;
   top: 0;
   left: 0;
@@ -83,29 +83,57 @@ header {
   justify-content: center;
 }
 
-#title-screen-title {
+#title-screen-title, #success-title, #fail-title {
   color: #2c3e50;
   font-size: 3rem;
   margin-bottom: 2rem;
   text-align: center;
 }
 
-#start-btn {
-  background: #003366; /* Raindrop blue */
+#start-btn, #reset-btn, #quit-btn, #success-reset-btn, #success-quit-btn, #fail-reset-btn, #fail-quit-btn {
+  background: #3fa9f5; /* Raindrop blue */
   color: #fff;
   border: none;
   border-radius: 1.5rem;
   padding: 1rem 3rem;
   font-size: 1.5rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  box-shadow: 0 2px 8px rgba(44,62,80,0.08);
   transition: background 0.2s;
+  margin-bottom: 1rem;
+  margin-top: 0;
 }
 
-#start-btn:hover,
-#start-btn:focus {
-  background: #5587a2; /* Lighter blue */
+#start-btn:hover, #start-btn:focus,
+#reset-btn:hover, #reset-btn:focus,
+#quit-btn:hover, #quit-btn:focus,
+#success-reset-btn:hover, #success-reset-btn:focus,
+#success-quit-btn:hover, #success-quit-btn:focus,
+#fail-reset-btn:hover, #fail-reset-btn:focus,
+#fail-quit-btn:hover, #fail-quit-btn:focus {
+  background: #7fd3ff; /* Lighter blue */
   outline: none;
+}
+
+#goal-points {
+  color: #264b7a;
+  font-weight: bold;
+  margin-top: 0.25rem;
+}
+
+/* Align the in-level buttons side by side */
+#game-container header > div {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Stack buttons in overlays */
+#success-screen button, #fail-screen button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (max-width: 768px) {
