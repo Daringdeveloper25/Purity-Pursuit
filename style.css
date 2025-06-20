@@ -69,7 +69,7 @@ header {
   background: url('images/dirty\ raindrop.png') no-repeat center / contain;
 }
 
-#title-screen, #success-screen, #fail-screen {
+#title-screen, #success-screen, #fail-screen, #congrats-screen {
   position: fixed;
   top: 0;
   left: 0;
@@ -83,14 +83,14 @@ header {
   justify-content: center;
 }
 
-#title-screen-title, #success-title, #fail-title {
+#title-screen-title, #success-title, #fail-title, #congrats-title {
   color: #2c3e50;
   font-size: 3rem;
   margin-bottom: 2rem;
   text-align: center;
 }
 
-#start-btn, #reset-btn, #quit-btn, #success-reset-btn, #success-quit-btn, #fail-reset-btn, #fail-quit-btn {
+#start-btn, #reset-btn, #quit-btn, #success-reset-btn, #success-quit-btn, #fail-reset-btn, #fail-quit-btn, #next-level-btn, #congrats-reset-btn, #congrats-quit-btn, #success-reset-level-btn, #success-reset-game-btn, #congrats-reset-level-btn, #congrats-reset-game-btn {
   background: #3fa9f5; /* Raindrop blue */
   color: #fff;
   border: none;
@@ -102,6 +102,9 @@ header {
   transition: background 0.2s;
   margin-bottom: 1rem;
   margin-top: 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #start-btn:hover, #start-btn:focus,
@@ -110,7 +113,14 @@ header {
 #success-reset-btn:hover, #success-reset-btn:focus,
 #success-quit-btn:hover, #success-quit-btn:focus,
 #fail-reset-btn:hover, #fail-reset-btn:focus,
-#fail-quit-btn:hover, #fail-quit-btn:focus {
+#fail-quit-btn:hover, #fail-quit-btn:focus,
+#next-level-btn:hover, #next-level-btn:focus,
+#congrats-reset-btn:hover, #congrats-reset-btn:focus,
+#congrats-quit-btn:hover, #congrats-quit-btn:focus,
+#success-reset-level-btn:hover, #success-reset-level-btn:focus,
+#success-reset-game-btn:hover, #success-reset-game-btn:focus,
+#congrats-reset-level-btn:hover, #congrats-reset-level-btn:focus,
+#congrats-reset-game-btn:hover, #congrats-reset-game-btn:focus {
   background: #7fd3ff; /* Lighter blue */
   outline: none;
 }
@@ -130,7 +140,7 @@ header {
 }
 
 /* Stack buttons in overlays */
-#success-screen button, #fail-screen button {
+#success-screen button, #fail-screen button, #congrats-screen button {
   display: block;
   margin-left: auto;
   margin-right: auto;

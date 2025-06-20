@@ -20,6 +20,16 @@ const quitBtn = document.getElementById("quit-btn");
 const successQuitBtn = document.getElementById("success-quit-btn");
 const failQuitBtn = document.getElementById("fail-quit-btn");
 const titleQuitBtn = document.getElementById("title-quit-btn");
+const nextLevelBtn = document.getElementById("next-level-btn");
+
+const congratsScreen = document.getElementById("congrats-screen");
+const congratsResetBtn = document.getElementById("congrats-reset-btn");
+const congratsQuitBtn = document.getElementById("congrats-quit-btn");
+
+const successResetLevelBtn = document.getElementById("success-reset-level-btn");
+const successResetGameBtn = document.getElementById("success-reset-game-btn");
+const congratsResetLevelBtn = document.getElementById("congrats-reset-level-btn");
+const congratsResetGameBtn = document.getElementById("congrats-reset-game-btn");
 
 let score = 0;
 let level = 1;
@@ -27,6 +37,8 @@ let time = 30;
 let gameInterval;
 let dropletInterval;
 let goalPoints = 50;
+
+let levelGoals = [50, 75, 100];
 
 function moveBucket(e) {
   const areaWidth = gameArea.clientWidth;
@@ -87,6 +99,11 @@ function checkGoal() {
   // No longer ends the game immediately when reaching the goal
 }
 
+function setGoalForLevel() {
+  goalPoints = levelGoals[level - 1];
+  goalPointsDisplay.textContent = `Goal: ${goalPoints}`;
+}
+
 function updateTime() {
   time--;
   timeDisplay.textContent = time;
@@ -94,7 +111,11 @@ function updateTime() {
     clearInterval(gameInterval);
     clearInterval(dropletInterval);
     if (score >= goalPoints) {
-      if (successScreen) successScreen.style.display = "flex";
+      if (level < 3) {
+        if (successScreen) successScreen.style.display = "flex";
+      } else {
+        if (congratsScreen) congratsScreen.style.display = "flex";
+      }
     } else {
       if (failScreen) failScreen.style.display = "flex";
     }
@@ -106,20 +127,29 @@ function startGame() {
   if (titleScreen) titleScreen.style.display = "none";
   if (successScreen) successScreen.style.display = "none";
   if (failScreen) failScreen.style.display = "none";
+  if (congratsScreen) congratsScreen.style.display = "none";
   // Reset game state
   score = 0;
-  level = 1;
   time = 30;
   scoreDisplay.textContent = score;
   levelDisplay.textContent = level;
   timeDisplay.textContent = time;
-  goalPointsDisplay.textContent = `Goal: ${goalPoints}`;
+  setGoalForLevel();
   // Remove all droplets
   const droplets = document.querySelectorAll('.droplet');
   droplets.forEach(droplet => droplet.remove());
   // Start game loops
+  clearInterval(gameInterval);
+  clearInterval(dropletInterval);
   gameInterval = setInterval(updateTime, 1000);
   dropletInterval = setInterval(spawnDroplet, 800);
+}
+
+function nextLevel() {
+  if (level < 3) {
+    level++;
+    startGame();
+  }
 }
 
 function resetGame() {
@@ -127,14 +157,14 @@ function resetGame() {
   if (titleScreen) titleScreen.style.display = "none";
   if (successScreen) successScreen.style.display = "none";
   if (failScreen) failScreen.style.display = "none";
+  if (congratsScreen) congratsScreen.style.display = "none";
   // Reset game state
   score = 0;
-  level = 1;
   time = 30;
   scoreDisplay.textContent = score;
   levelDisplay.textContent = level;
   timeDisplay.textContent = time;
-  goalPointsDisplay.textContent = `Goal: ${goalPoints}`;
+  setGoalForLevel();
   // Remove all droplets
   const droplets = document.querySelectorAll('.droplet');
   droplets.forEach(droplet => droplet.remove());
@@ -150,6 +180,7 @@ function quitToTitle() {
   if (titleScreen) titleScreen.style.display = "flex";
   if (successScreen) successScreen.style.display = "none";
   if (failScreen) failScreen.style.display = "none";
+  if (congratsScreen) congratsScreen.style.display = "none";
   // Reset game state
   score = 0;
   level = 1;
@@ -186,6 +217,12 @@ if (successResetBtn) {
 if (failResetBtn) {
   failResetBtn.addEventListener("click", resetGame);
 }
+if (congratsResetBtn) {
+  congratsResetBtn.addEventListener("click", () => {
+    level = 1;
+    startGame();
+  });
+}
 if (quitBtn) {
   quitBtn.addEventListener("click", quitToTitle);
 }
@@ -197,4 +234,32 @@ if (failQuitBtn) {
 }
 if (titleQuitBtn) {
   titleQuitBtn.addEventListener("click", quitToTitle);
+}
+if (nextLevelBtn) {
+  nextLevelBtn.addEventListener("click", nextLevel);
+}
+if (successResetLevelBtn) {
+  successResetLevelBtn.addEventListener("click", () => {
+    startGame();
+  });
+}
+if (successResetGameBtn) {
+  successResetGameBtn.addEventListener("click", () => {
+    level = 1;
+    startGame();
+  });
+}
+if (congratsResetLevelBtn) {
+  congratsResetLevelBtn.addEventListener("click", () => {
+    startGame();
+  });
+}
+if (congratsResetGameBtn) {
+  congratsResetGameBtn.addEventListener("click", () => {
+    level = 1;
+    startGame();
+  });
+}
+if (congratsQuitBtn) {
+  congratsQuitBtn.onclick = quitToTitle;
 }
