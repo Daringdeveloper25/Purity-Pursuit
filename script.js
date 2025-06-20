@@ -5,6 +5,10 @@ const scoreDisplay = document.getElementById("score");
 const levelDisplay = document.getElementById("level");
 const timeDisplay = document.getElementById("time");
 
+// Title screen elements
+const titleScreen = document.getElementById("title-screen");
+const startBtn = document.getElementById("start-btn");
+
 let score = 0;
 let level = 1;
 let time = 60;
@@ -79,11 +83,39 @@ function updateTime() {
 }
 
 function startGame() {
+  // Hide title screen if present
+  if (titleScreen) titleScreen.style.display = "none";
+  // Reset game state
+  score = 0;
+  level = 1;
+  time = 60;
+  scoreDisplay.textContent = score;
+  levelDisplay.textContent = level;
+  timeDisplay.textContent = time;
+  // Start game loops
   gameInterval = setInterval(updateTime, 1000);
   dropletInterval = setInterval(spawnDroplet, 800);
 }
 
-window.addEventListener("mousemove", moveBucket);
-window.addEventListener("touchmove", moveBucket);
+// Only start game on button click, not on window load
+if (startBtn) {
+  startBtn.addEventListener("click", startGame);
+}
 
-window.onload = startGame;
+// Enable bucket movement only after game starts
+function enableBucketMovement() {
+  window.addEventListener("mousemove", moveBucket);
+  window.addEventListener("touchmove", moveBucket);
+}
+function disableBucketMovement() {
+  window.removeEventListener("mousemove", moveBucket);
+  window.removeEventListener("touchmove", moveBucket);
+}
+
+// Enable movement when game starts
+if (startBtn) {
+  startBtn.addEventListener("click", enableBucketMovement);
+}
+
+// Prevent game from auto-starting
+// window.onload = startGame;

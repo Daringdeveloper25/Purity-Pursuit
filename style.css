@@ -62,11 +62,50 @@ header {
 }
 
 .clean {
-  background: url('images/clean_raindrop.png') no-repeat center / contain;
+  background: url('images/clean\ raindrop.png') no-repeat center / contain;
 }
 
 .dirty {
-  background: url('images/dirty_raindrop.png') no-repeat center / contain;
+  background: url('images/dirty\ raindrop.png') no-repeat center / contain;
+}
+
+#title-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #a3c2d1;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#title-screen-title {
+  color: #2c3e50;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+#start-btn {
+  background: #003366; /* Raindrop blue */
+  color: #fff;
+  border: none;
+  border-radius: 1.5rem;
+  padding: 1rem 3rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  transition: background 0.2s;
+}
+
+#start-btn:hover,
+#start-btn:focus {
+  background: #5587a2; /* Lighter blue */
+  outline: none;
 }
 
 @media (max-width: 768px) {
