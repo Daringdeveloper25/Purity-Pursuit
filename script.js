@@ -104,6 +104,23 @@ function setGoalForLevel() {
   goalPointsDisplay.textContent = `Goal: ${goalPoints}`;
 }
 
+function showConfetti(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  const colors = ['#3fa9f5', '#7fd3ff', '#f9d423', '#f36f6f', '#2ecc71', '#f7b731'];
+  for (let i = 0; i < 40; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = Math.random() * 90 + 5 + '%';
+    confetti.style.top = (Math.random() * 10 + 5) + '%';
+    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+    container.appendChild(confetti);
+  }
+  setTimeout(() => { container.innerHTML = ''; }, 1800);
+}
+
 function updateTime() {
   time--;
   timeDisplay.textContent = time;
@@ -112,9 +129,15 @@ function updateTime() {
     clearInterval(dropletInterval);
     if (score >= goalPoints) {
       if (level < 3) {
-        if (successScreen) successScreen.style.display = "flex";
+        if (successScreen) {
+          successScreen.style.display = "flex";
+          showConfetti('success-confetti');
+        }
       } else {
-        if (congratsScreen) congratsScreen.style.display = "flex";
+        if (congratsScreen) {
+          congratsScreen.style.display = "flex";
+          showConfetti('congrats-confetti');
+        }
       }
     } else {
       if (failScreen) failScreen.style.display = "flex";
